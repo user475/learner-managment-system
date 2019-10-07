@@ -10,5 +10,4 @@ public class LernerManagmentApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LernerManagmentApplication.class, args);
 	}
-
 }

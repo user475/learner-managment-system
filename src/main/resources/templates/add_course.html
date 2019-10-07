@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+	xmlns:dt="http://www.thymeleaf.org/dandelion/datatables" />
+
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<script th:src="@{/js/jquery-1.9.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<title>Add Course</title>
+</head>
+<body>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i
+						class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand" href="#">Course Management</a>
+			</div>
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-left">
+					<li ><a href="/teacher/courses">Courses</a></li>
+					<li class="active"><a href="/teacher/add-course">Add Course</a></li>
+					<li><a href="/teacher/home">Course Requests</a></li>
+				</ul>
+				<div style="float: right; margin-top: 10px">
+					<a th:href="@{/logout}" class="btn btn-info">Logout</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div align="center">
+		<h1>Add Course</h1>
+		<form th:action="@{/teacher/add-course}" th:object="${course}"
+			method="post">
+			<table>
+				<tr>
+					<td>Course Name: &nbsp;</td>
+					<td><input type="text" class="form-control"
+						th:field="*{courseName}" required="required"></input></td>
+
+					<td style="padding-left: 5px;">Start Date&nbsp;</td>
+					<td><input type="text" class="form-control" id="startDate"
+						th:field="*{startDate}" required="required"
+						placeholder="YYYY-MM-DD"></input></td>
+
+					<td style="padding-left: 5px;">End Date &nbsp;</td>
+					<td>
+						<div>
+							<input type="text" class="form-control" id="endDate"
+								th:field="*{endDate}" required="required"
+								placeholder="YYYY-MM-DD"></input>
+
+						</div>
+
+					</td>
+
+				</tr>
+
+				<tr style="padding-top: 8px;">
+					<td>Description:</td>
+					<td><textarea class="form-control" th:field="*{description}"
+							required="required" style="margin-top: 15px;" maxlength="50"></textarea></td>
+
+					<td style="padding-left: 7px;">Timings&nbsp;</td>
+					<td><input type="text" class="form-control"
+						th:field="*{timing}" placeholder="HH:MM AM/PM" required="required"></input></td>
+				</tr>
+
+				<tr>
+					<td>
+						<div>
+							<button class="btn btn-danger" type="submit"
+								onclick=" checkDate(), checkEndDate()">Add</button>
+						</div>
+					</td>
+				</tr>
+
+			</table>
+
+			<div>
+				<p th:text=${error} th:value=${error}></p>
+			</div>
+		</form>
+	</div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+	function checkDate() {
+		// regular expression to match required date format
+		// re = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
+		var dateRe = /^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/;
+		var startDate = $('#startDate').val().replace(' ', '');
+		var endDate = $('#endDate').val().replace(' ', '');
+		if (!startDate.match(dateRe)) {
+			$('#startDate').val('');
+		}
+		if (!endDate.match(dateRe)) {
+			$('#endDate').val('');
+		}
+		
+		var timeRe = /^([0-9]{2})\-([0-9]{2})\-([0-9]{2})$/;
+	}
+	function checkEndDate() {
+		var startDate = $('#startDate').val().replace(' ', '');
+		var endDate = $('#endDate').val().replace(' ', '');
+		var eDate = new Date(endDate);
+		  var sDate = new Date(startDate);
+		  if(startDate!= '' && endDate!= '' && sDate> eDate)
+		    {
+		   // alert("Please ensure that the End Date is greater than or equal to the Start Date.");
+		    $('#endDate').val('');
+		    }
+		
+		var timeRe = /^([0-9]{2})\-([0-9]{2})\-([0-9]{2})$/;
+	}
+	/*]]>*/
+</script>
+</html>
